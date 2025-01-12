@@ -29,4 +29,6 @@ $lang = array_merge($lang, [
     'REGISTER_PHONE_VERIFY' => '手机实名验证',
     'REGISTER_PHONE_VERIFY_EXPLAIN' => '请输入您的手机号码并完成验证',
     'PHONE_NUMBER_ALREADY_USED' => '该手机号已被注册，请使用其他手机号',
+    'SMS_DAILY_LIMIT_REACHED'   => '该手机号今日发送次数已达上限',
+    'SMS_IP_LIMIT_REACHED'      => '当前IP地址今日发送次数已达上限',
 ]);

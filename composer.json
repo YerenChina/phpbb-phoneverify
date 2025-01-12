@@ -3,7 +3,7 @@
     "type": "phpbb-extension",
     "description": "这是应中国大陆法律要求而开发的一个针对中国大陆手机号实名认证的扩展",
     "homepage": "https://bushcraftcn.com",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "time": "2025-01-12",
     "license": "GPL-2.0-only",
     "authors": [

@@ -99,17 +99,11 @@ class verify_controller
         }
 
         // 检查是否频繁发送
-        $sql = 'SELECT COUNT(*) as count FROM ' . $this->verify_table . '
-                WHERE phone_number = "' . $this->db->sql_escape($phone_number) . '"
-                AND created_time > ' . (time() - 60);
-        $result = $this->db->sql_query($sql);
-        $count = (int) $this->db->sql_fetchfield('count');
-        $this->db->sql_freeresult($result);
-
-        if ($count > 0) {
+        $check_result = $this->check_send_limits($phone_number);
+        if ($check_result['status'] === 'error') {
             return new JsonResponse([
                 'status' => 'error',
-                'message' => $this->user->lang['SMS_SEND_TOO_FREQUENT']
+                'message' => $check_result['message']
             ]);
         }
 
@@ -133,6 +127,7 @@ class verify_controller
             'created_time'   => time(),
             'expire_time'    => time() + 300, // 5分钟有效期
             'verified'       => 0,
+            'ip'            => $this->user->ip,
         ];
 
         $sql = 'INSERT INTO ' . $this->verify_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
@@ -148,5 +143,48 @@ class verify_controller
     {
         // 处理验证请求的方法
         // ...
+    }
+
+    protected function check_send_limits($phone_number)
+    {
+        // 检查发送间隔
+        $sql = 'SELECT COUNT(*) as count FROM ' . $this->verify_table . '
+                WHERE phone_number = "' . $this->db->sql_escape($phone_number) . '"
+                AND created_time > ' . (time() - $this->config['phoneverify_interval']);
+        $result = $this->db->sql_query($sql);
+        $count = (int) $this->db->sql_fetchfield('count');
+        $this->db->sql_freeresult($result);
+
+        if ($count > 0) {
+            return ['status' => 'error', 'message' => $this->user->lang['SMS_SEND_TOO_FREQUENT']];
+        }
+
+        // 检查每日限制
+        $today_start = strtotime('today');
+        $sql = 'SELECT COUNT(*) as count FROM ' . $this->verify_table . '
+                WHERE phone_number = "' . $this->db->sql_escape($phone_number) . '"
+                AND created_time > ' . $today_start;
+        $result = $this->db->sql_query($sql);
+        $daily_count = (int) $this->db->sql_fetchfield('count');
+        $this->db->sql_freeresult($result);
+
+        if ($daily_count >= $this->config['phoneverify_daily_limit']) {
+            return ['status' => 'error', 'message' => $this->user->lang['SMS_DAILY_LIMIT_REACHED']];
+        }
+
+        // 检查 IP 限制
+        $ip = $this->user->ip;
+        $sql = 'SELECT COUNT(*) as count FROM ' . $this->verify_table . '
+                WHERE ip = "' . $this->db->sql_escape($ip) . '"
+                AND created_time > ' . $today_start;
+        $result = $this->db->sql_query($sql);
+        $ip_count = (int) $this->db->sql_fetchfield('count');
+        $this->db->sql_freeresult($result);
+
+        if ($ip_count >= $this->config['phoneverify_ip_daily_limit']) {
+            return ['status' => 'error', 'message' => $this->user->lang['SMS_IP_LIMIT_REACHED']];
+        }
+
+        return ['status' => 'success'];
     }
 }
