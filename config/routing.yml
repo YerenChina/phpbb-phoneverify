@@ -1,0 +1,7 @@
+bushcraftcn_phoneverify_verify:
+    path: /verify
+    defaults: { _controller: bushcraftcn.phoneverify.controller:handle }
+
+bushcraftcn_phoneverify_send_code:
+    path: /verify/send
+    defaults: { _controller: bushcraftcn.phoneverify.controller:send_code } 

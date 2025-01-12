@@ -1,0 +1,47 @@
+<!-- INCLUDE overall_header.html -->
+
+<h2>{L_PHONE_VERIFY}</h2>
+
+<form id="phone_verify_form" method="post" action="{U_ACTION}">
+    <div class="panel">
+        <div class="inner">
+            <p>{L_PHONE_VERIFY_EXPLAIN}</p>
+            <fieldset class="fields2">
+                <dl>
+                    <dt><label for="phone_number">{L_PHONE_NUMBER}:</label></dt>
+                    <dd>
+                        <input type="text" name="phone_number" id="phone_number" size="25" maxlength="20" class="inputbox" />
+                        <input type="button" name="send_code" id="send_code" value="{L_SEND_CODE}" class="button2" data-url="{U_SEND_CODE}" />
+                    </dd>
+                </dl>
+                <dl>
+                    <dt><label for="verify_code">{L_VERIFY_CODE}:</label></dt>
+                    <dd>
+                        <input type="text" name="verify_code" id="verify_code" size="6" maxlength="6" class="inputbox" />
+                    </dd>
+                </dl>
+            </fieldset>
+        </div>
+    </div>
+
+    <fieldset class="submit-buttons">
+        <input type="submit" name="submit" value="{L_SUBMIT_VERIFY}" class="button1" />
+        {S_FORM_TOKEN}
+    </fieldset>
+</form>
+
+<script>
+var phoneVerifyLang = {
+    'ERROR': '{LA_ERROR}',
+    'SUCCESS': '{LA_SUCCESS}',
+    'SEND_CODE': '{LA_SEND_CODE}',
+    'PHONE_NUMBER_INVALID': '{LA_PHONE_NUMBER_INVALID}',
+    'VERIFY_CODE_INVALID': '{LA_VERIFY_CODE_INVALID}',
+    'SMS_SEND_FAILED': '{LA_SMS_SEND_FAILED}',
+    'VERIFY_CODE_SENT': '{LA_VERIFY_CODE_SENT}'
+};
+</script>
+
+<!-- INCLUDEJS @bushcraftcn_phoneverify/js/phone_verify.js -->
+
+<!-- INCLUDE overall_footer.html -->

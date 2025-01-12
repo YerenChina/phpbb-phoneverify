@@ -1,0 +1,59 @@
+<!-- INCLUDE overall_header.html -->
+
+<h1>{L_ACP_PHONE_VERIFY_SETTINGS}</h1>
+
+<!-- IF S_ERROR -->
+<div class="errorbox">
+    <h3>{L_WARNING}</h3>
+    <p>{ERROR_MSG}</p>
+</div>
+<!-- ENDIF -->
+
+<form id="acp_board" method="post" action="{U_ACTION}">
+    <fieldset>
+        <legend>{L_ACP_ALIYUN_SETTINGS}</legend>
+        <dl>
+            <dt>
+                <label for="phoneverify_aliyun_access_key_id">{L_ACP_ALIYUN_KEY_ID}:</label><br />
+                <span>{L_ACP_ALIYUN_KEY_ID_EXPLAIN}</span>
+            </dt>
+            <dd>
+                <input type="text" id="phoneverify_aliyun_access_key_id" name="phoneverify_aliyun_access_key_id" value="{ALIYUN_KEY_ID}" size="40" maxlength="255" />
+            </dd>
+        </dl>
+        <dl>
+            <dt>
+                <label for="phoneverify_aliyun_access_key_secret">{L_ACP_ALIYUN_KEY_SECRET}:</label><br />
+                <span>{L_ACP_ALIYUN_KEY_SECRET_EXPLAIN}</span>
+            </dt>
+            <dd>
+                <input type="password" id="phoneverify_aliyun_access_key_secret" name="phoneverify_aliyun_access_key_secret" value="{ALIYUN_KEY_SECRET}" size="40" maxlength="255" />
+            </dd>
+        </dl>
+        <dl>
+            <dt>
+                <label for="phoneverify_aliyun_sign_name">{L_ACP_ALIYUN_SIGN_NAME}:</label><br />
+                <span>{L_ACP_ALIYUN_SIGN_NAME_EXPLAIN}</span>
+            </dt>
+            <dd>
+                <input type="text" id="phoneverify_aliyun_sign_name" name="phoneverify_aliyun_sign_name" value="{ALIYUN_SIGN_NAME}" size="40" maxlength="255" />
+            </dd>
+        </dl>
+        <dl>
+            <dt>
+                <label for="phoneverify_aliyun_template_code">{L_ACP_ALIYUN_TEMPLATE_CODE}:</label><br />
+                <span>{L_ACP_ALIYUN_TEMPLATE_CODE_EXPLAIN}</span>
+            </dt>
+            <dd>
+                <input type="text" id="phoneverify_aliyun_template_code" name="phoneverify_aliyun_template_code" value="{ALIYUN_TEMPLATE_CODE}" size="40" maxlength="255" />
+            </dd>
+        </dl>
+    </fieldset>
+
+    <fieldset class="submit-buttons">
+        <input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />
+        {S_FORM_TOKEN}
+    </fieldset>
+</form>
+
+<!-- INCLUDE overall_footer.html -->

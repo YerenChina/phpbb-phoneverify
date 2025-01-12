@@ -1,0 +1,38 @@
+services:
+    bushcraftcn.phoneverify.listener:
+        class: bushcraftcn\phoneverify\event\main_listener
+        arguments:
+            - '@config'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@dbal.conn'
+            - '@controller.helper'
+            - '%bushcraftcn.phoneverify.tables.verify%'
+            - '%bushcraftcn.phoneverify.tables.user_phone%'
+        tags:
+            - { name: event.listener }
+
+    bushcraftcn.phoneverify.controller:
+        class: bushcraftcn\phoneverify\controller\verify_controller
+        arguments:
+            - '@config'
+            - '@template'
+            - '@user'
+            - '@request'
+            - '@dbal.conn'
+            - '@bushcraftcn.phoneverify.sms_sender'
+            - '@controller.helper'
+            - '%core.php_ext%'
+            - '%core.root_path%'
+            - '%bushcraftcn.phoneverify.tables.verify%'
+            - '%bushcraftcn.phoneverify.tables.user_phone%'
+
+    bushcraftcn.phoneverify.sms_sender:
+        class: bushcraftcn\phoneverify\service\sms_sender
+        arguments:
+            - '@config'
+
+parameters:
+    bushcraftcn.phoneverify.tables.verify: '%core.table_prefix%phone_verify'
+    bushcraftcn.phoneverify.tables.user_phone: '%core.table_prefix%user_phone' 
